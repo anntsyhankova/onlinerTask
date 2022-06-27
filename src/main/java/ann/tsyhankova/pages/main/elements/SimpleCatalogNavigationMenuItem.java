@@ -1,15 +1,14 @@
-package ann.tsyhankova.elements;
+package ann.tsyhankova.pages.main.elements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class NavigationButton {
+public class SimpleCatalogNavigationMenuItem {
 
     private final WebElement element;
-
     private final By buttonName = By.xpath(".//span[contains(@class,'catalog-navigation-classifier__item-title-wrapper')]");
 
-    public NavigationButton(WebElement element) {
+    public SimpleCatalogNavigationMenuItem(WebElement element) {
         this.element = element;
     }
 
