@@ -18,7 +18,7 @@ public class OnlinerSearchResultPage implements BasePage<OnlinerSearchResultPage
     private final By productList = By.xpath("//div[@class='schema-product']");
 
     public OnlinerSearchResultPage chooseFilterByNameAndInputFromValue(String filterName, String value){
-        new SimpleFilter(findFilterItem().findFilterWithName(filterName)).from(value);
+        new SimpleFilter(findFilterSection().findFilterWithName(filterName)).from(value);
         return this;
     }
 
@@ -27,10 +27,11 @@ public class OnlinerSearchResultPage implements BasePage<OnlinerSearchResultPage
         return new OnlinerProductCardPage();
     }
     public List<ProductWrapper> getProductList(){
+        //todo sleep 10s
         return driver.findElements(productList).stream().map(ProductWrapper::new).toList();
     }
 
-    private FilterSection findFilterItem() {
+    public FilterSection findFilterSection() {
         return new FilterSection(driver.findElement(filterSection));
     }
 

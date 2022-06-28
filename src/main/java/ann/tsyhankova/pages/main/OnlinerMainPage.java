@@ -22,11 +22,11 @@ public class OnlinerMainPage implements BasePage<OnlinerMainPage> {
         return new OnlinerSearchResultPage();
     }
 
-    private SimpleCatalogNavigationMenu findSimpleCatalogNavigationMenu() {
+    public SimpleCatalogNavigationMenu findSimpleCatalogNavigationMenu() {
         return new SimpleCatalogNavigationMenu(driver.findElement(this.simpleCatalogNavigationMenu));
     }
 
-    private CatalogNavigationSection findCatalogNavigationSection(){
+    public CatalogNavigationSection findCatalogNavigationSection(){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         return new CatalogNavigationSection(wait.until(ExpectedConditions.presenceOfElementLocated(catalogSection)));
     }
