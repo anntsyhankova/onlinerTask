@@ -1,10 +1,12 @@
-import ann.tsyhankova.pages.OnlinerProductCardPage;
+import ann.tsyhankova.pages.productCard.OnlinerProductCardPage;
+import ann.tsyhankova.pages.productCard.elements.OfferWrapper;
 import ann.tsyhankova.pages.search.elements.ProductWrapper;
 import ann.tsyhankova.pages.main.OnlinerMainPage;
 import ann.tsyhankova.pages.search.OnlinerSearchResultPage;
 import ann.tsyhankova.pages.search.elements.SimpleFilter;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -12,6 +14,7 @@ public class OnlinerTest {
 
     @Test
     public void openTest() {
+        List<String> providerNameList = new ArrayList<>();
         ProductWrapper productWrapper = new OnlinerMainPage().open()
                 .chooseCategory(
                         "Компьютеры и сети",
@@ -21,10 +24,16 @@ public class OnlinerTest {
                 .chooseFilterByNameAndInputFromValue("Видеопамять", "8 ГБ")
                 .render()
                 .getProductList().stream()
-                .min(Comparator.comparing(ProductWrapper::getPrice))
+                .max(Comparator.comparing(ProductWrapper::getPrice))
                 .orElse(null);
-        new OnlinerSearchResultPage().goToProductCardPage(productWrapper);
-        //new OnlinerMainPage().open().chooseCategory("Компьютеры и сети", "Комплектующие");
+        System.out.println(productWrapper.getPrice());
+        OnlinerProductCardPage page = new OnlinerSearchResultPage().goToProductCardPage(productWrapper);
+        for (int i = 0; i < page.getAllOfferList().size(); i++) {
+            List<OfferWrapper> offerWrapperList = page.getAllOfferList();
+            providerNameList.add(offerWrapperList.get(i).goToProviderPage().getProviderName());
+            page.open();
+        }
+        System.out.println(providerNameList);
     }
 
     public void test(){

@@ -4,13 +4,14 @@ import ann.tsyhankova.pages.search.elements.FilterSection;
 import ann.tsyhankova.pages.search.elements.ProductWrapper;
 import ann.tsyhankova.pages.search.elements.SimpleFilter;
 import ann.tsyhankova.pages.BasePage;
-import ann.tsyhankova.pages.OnlinerProductCardPage;
+import ann.tsyhankova.pages.productCard.OnlinerProductCardPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class OnlinerSearchResultPage implements BasePage<OnlinerSearchResultPage> {
 
@@ -27,8 +28,15 @@ public class OnlinerSearchResultPage implements BasePage<OnlinerSearchResultPage
         return new OnlinerProductCardPage();
     }
     public List<ProductWrapper> getProductList(){
-        //todo sleep 10s
-        return driver.findElements(productList).stream().map(ProductWrapper::new).toList();
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Cannot wait 1s before get product list", e);
+        }
+        return new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(productList)).stream()
+                .map(ProductWrapper::new)
+                .toList();
     }
 
     public FilterSection findFilterSection() {
